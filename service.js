@@ -8,8 +8,13 @@ const openai = new OpenAI({
 
 const dataset = JSON.parse(require('fs').readFileSync('dataset.json'))
 
+function productContent(productID, json) {
+  let product = json.find((element) => element["product_csin"] === productID)
+  return [product["product_attributes"],product["product_offers"]]
+}
+
 async function askAboutProduct(productId, message) {
-  let product = dataset.find(el => el.product_csin == productId)
+  let product = productContent(productId, dataset)
   
   const chatCompletion = await openai.chat.completions.create({
     messages: [
@@ -25,14 +30,7 @@ async function askAboutProduct(productId, message) {
     model: 'gpt-3.5-turbo',
   });
 
-  return chatCompletion.choices[0]
+  return chatCompletion.choices[0].message.content
 }
 
-
-async function test() {
-  let r = await askAboutProduct("C8F5BF749364C7", "Wieviel kostet das?")
-  console.log(r)
-}
-
-test()
 exports.askAboutProduct = askAboutProduct
