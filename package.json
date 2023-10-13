@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chatgpt": "^5.2.5"
+    "openai": "^4.12.1"
   }
 }
