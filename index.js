@@ -15,4 +15,3 @@ async function main() {
   console.log(chatCompletion.choices);
 }
 
-main()
